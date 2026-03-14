@@ -40,6 +40,7 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
+      export AZURE_CONFIG_DIR=/tmp/.azure
       az acr login --name $(ACR_NAME)
 
 - script: |
