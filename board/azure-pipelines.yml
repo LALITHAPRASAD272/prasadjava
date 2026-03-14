@@ -32,6 +32,7 @@ steps:
     trivy image $(IMAGE_NAME):v1
   displayName: Trivy Security Scan
 
+
 - script: |
     export AZURE_CONFIG_DIR=/tmp/.azure
 
@@ -41,6 +42,7 @@ steps:
       --tenant $(AZURE_TENANT_ID)
 
     az account set --subscription $(AZURE_SUBSCRIPTION_ID)
+
   displayName: Azure CLI Login
 - script: |
     az acr login --name $(ACR_NAME)
