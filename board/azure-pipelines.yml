@@ -34,7 +34,7 @@ steps:
 
 - script: |
     echo $(ACR_PASSWORD) | docker login prasadacrb8hdsh.azurecr.io \
-      --username $(ACR_USERNAME) \
+      -u $(ACR_USERNAME) \
       --password-stdin
   displayName: Login to ACR
 
