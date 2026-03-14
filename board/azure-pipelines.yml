@@ -32,20 +32,15 @@ steps:
   displayName: Trivy Security Scan
 
 
-- script: |
-    export AZURE_CONFIG_DIR=/tmp/.azure
 
-    az login --service-principal \
-      -u $(AZURE_CLIENT_ID) \
-      -p $(AZURE_CLIENT_SECRET) \
-      --tenant $(AZURE_TENANT_ID)
-
-    az account set --subscription $(AZURE_SUBSCRIPTION_ID)
-
-  displayName: Azure CLI Login
-- script: |
-    az acr login --name $(ACR_NAME)
+- task: AzureCLI@2
   displayName: Login to ACR
+  inputs:
+    azureSubscription: 'Azure for Students(b92e8a3c-9e1b-4643-9df9-bea61f286443)'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az acr login --name $(ACR_NAME)
 
 - script: |
     docker tag $(IMAGE_NAME):v1 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):v1
