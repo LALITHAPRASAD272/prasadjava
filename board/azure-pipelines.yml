@@ -40,9 +40,10 @@ steps:
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      mkdir -p /tmp/.azure
-      export AZURE_CONFIG_DIR=/tmp/.azure
+      mkdir -p $AZURE_CONFIG_DIR
       az acr login --name $(ACR_NAME)
+  env:
+    AZURE_CONFIG_DIR: $(Agent.TempDirectory)/.azure
 
 - script: |
     docker tag $(IMAGE_NAME):v1 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):v1
