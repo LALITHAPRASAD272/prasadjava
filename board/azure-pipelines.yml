@@ -1,12 +1,11 @@
 trigger:
 - main
-
+variables:
+- group: New variable group 14-Mar
 pool:
   name: SelfHostedPool
 
-variables:
-  ACR_NAME: prasadacrb8hdsh
-  IMAGE_NAME: board-app
+
 
 steps:
 
