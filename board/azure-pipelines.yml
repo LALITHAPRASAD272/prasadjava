@@ -34,16 +34,16 @@ steps:
 
 
 - task: AzureCLI@2
-  displayName: Login to ACR
+  displayName: Connect to AKS
   inputs:
     azureSubscription: 'Azure for Students(b92e8a3c-9e1b-4643-9df9-bea61f286443)'
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
-      mkdir -p $AZURE_CONFIG_DIR
-      az acr login --name $(ACR_NAME)
-  env:
-    AZURE_CONFIG_DIR: $(Agent.TempDirectory)/.azure
+      az aks get-credentials \
+        --resource-group $(AKS_RESOURCE_GROUP) \
+        --name $(AKS_CLUSTER_NAME) \
+        --overwrite-existing
 
 - script: |
     docker tag $(IMAGE_NAME):v1 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):v1
