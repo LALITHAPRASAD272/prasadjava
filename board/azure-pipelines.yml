@@ -33,7 +33,7 @@ steps:
   displayName: Trivy Security Scan
 
 - script: |
-    az acr login --name $(ACR_NAME)
+    sudo az acr login --name prasadacrb8hdsh
   displayName: Login to ACR
 
 - script: |
