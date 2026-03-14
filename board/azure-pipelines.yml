@@ -33,7 +33,9 @@ steps:
   displayName: Trivy Security Scan
 
 - script: |
-    sudo az acr login --name prasadacrb8hdsh
+    echo $(ACR_PASSWORD) | docker login prasadacrb8hdsh.azurecr.io \
+      --username $(ACR_USERNAME) \
+      --password-stdin
   displayName: Login to ACR
 
 - script: |
