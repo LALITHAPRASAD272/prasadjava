@@ -20,7 +20,8 @@ steps:
 - script: |
     cd board
     mvn sonar:sonar \
-    -Dsonar.host.url=http://52.139.37.22:9000
+      -Dsonar.host.url=http://52.139.37.22:9000 \
+      -Dsonar.login=$(SONAR_TOKEN)
   displayName: SonarQube Scan
 
 - script: |
