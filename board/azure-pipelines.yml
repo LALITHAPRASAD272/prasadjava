@@ -12,16 +12,19 @@ steps:
 
 - checkout: self
 
-- script: mvn clean package
+- script: |
+    cd board
+    mvn clean package
   displayName: Build Java App
 
 - script: |
+    cd board
     mvn sonar:sonar \
-    -Dsonar.host.url=http://localhost:9000
+    -Dsonar.host.url=http://52.139.37.22:9000
   displayName: SonarQube Scan
 
 - script: |
-    docker build -t $(IMAGE_NAME):v1 .
+    docker build -t $(IMAGE_NAME):v1 ./board
   displayName: Docker Build
 
 - script: |
