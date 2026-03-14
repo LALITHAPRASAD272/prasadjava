@@ -1,0 +1,46 @@
+trigger:
+- main
+
+pool:
+  name: SelfHostedPool
+
+variables:
+  ACR_NAME: prasadacrb8hdsh
+  IMAGE_NAME: board-app
+
+steps:
+
+- checkout: self
+
+- script: mvn clean package
+  displayName: Build Java App
+
+- script: |
+    mvn sonar:sonar \
+    -Dsonar.host.url=http://localhost:9000
+  displayName: SonarQube Scan
+
+- script: |
+    docker build -t $(IMAGE_NAME):v1 .
+  displayName: Docker Build
+
+- script: |
+    trivy image $(IMAGE_NAME):v1
+  displayName: Trivy Security Scan
+
+- script: |
+    az acr login --name $(ACR_NAME)
+  displayName: Login to ACR
+
+- script: |
+    docker tag $(IMAGE_NAME):v1 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):v1
+  displayName: Tag Image
+
+- script: |
+    docker push $(ACR_NAME).azurecr.io/$(IMAGE_NAME):v1
+  displayName: Push Image
+
+- script: |
+    kubectl apply -f k8s/deployment.yaml
+    kubectl apply -f k8s/service.yaml
+  displayName: Deploy to AKS
