@@ -33,9 +33,16 @@ steps:
   displayName: Trivy Security Scan
 
 - script: |
-    echo $(ACR_PASSWORD) | docker login $(ACR_NAME).azurecr.io \
-      -u $(ACR_NAME) \
-      --password-stdin
+    az login --service-principal \
+      -u $(AZURE_CLIENT_ID) \
+      -p $(AZURE_CLIENT_SECRET) \
+      --tenant $(AZURE_TENANT_ID)
+
+    az account set --subscription $(AZURE_SUBSCRIPTION_ID)
+
+  displayName: Azure CLI Login
+- script: |
+    az acr login --name $(ACR_NAME)
   displayName: Login to ACR
 
 - script: |
